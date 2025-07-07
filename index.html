@@ -225,14 +225,17 @@
       return;
     }
 
-    const ei = eScore >= iScore ? "E (외향)" : "I (내향)";
+    const eiPercent = Math.round((eScore / (eScore + iScore)) * 100);
+  const ei = eScore >= iScore
+      ? `E (외향) – ${eiPercent}%`
+      : `I (내향) – ${100 - eiPercent}%`;
     const maxScore = 5;
-    const maxPerType = 30 * maxScore;
+    const maxTotal = 180 * maxScore; // 전체 문항 기준 최고점 (900)
 
     const top2 = Object.entries(scores)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 2)
-      .map(([type, score]) => [type, score, Math.round((score / maxPerType) * 100)]);
+      .map(([type, score]) => [type, score, Math.round((score / maxTotal) * 100)]);
 
     const descriptions = {
       W: "W 유형은 '온전함(Wholeness)'을 갈망하는 성향으로, 자기의가 크며 비판에 민감하고 내면의 불안정성을 숨기려 합니다.",
